@@ -8,10 +8,23 @@
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
+  	<!-- code from http://bl.ocks.org/d3noob/10632804 -->
+  	 <p>
+    	<label for="nYear"
+    			style="display: inline-block; width: 240px; text-align: right">
+    			Year = <span id="nYear-value"></span>
+    	</label>
+
+    	<input type="range" min="1995" max="2015" step="5" id="nYear" value="1995">
+ 
+ 		<!-- adds number at end of slider -->
+    	<!-- <output for="nYear" id="nYear">2000</output> -->
+    </p>
     <div id="chart"></div>
     <script type="text/javascript">
-    var data = [
-        [
+
+    	//datasets for each year
+    	var data1995 = [[
         {axis: "San Francisco", value: 1300, yOffset: 10}, 
         {axis: "San Jose", value: 1300}, 
         {axis: "Los Angeles", value: 1300},  
@@ -24,7 +37,44 @@
         {axis: "San Diego", value: 1300},  
         {axis: "Berkeley", value: 1700}
       ]
-  ];
+      ];
 
-  RadarChart.draw("#chart", data);
+    var data2000 = [[
+        {axis: "San Francisco", value: 1300, yOffset: 10}, 
+        {axis: "San Jose", value: 1300}, 
+        {axis: "Los Angeles", value: 1300},  
+        {axis: "San Diego", value: 1300},  
+        {axis: "Berkeley", value: 1300, xOffset: -20}
+      ], [
+        {axis: "San Francisco", value: 2000}, 
+        {axis: "San Jose", value: 1900}, 
+        {axis: "Los Angeles", value: 1700},  
+        {axis: "San Diego", value: 1500},  
+        {axis: "Berkeley", value: 1900}
+      ]
+      ];
+
+    //listener for slider input
+
+    d3.select("#nYear").on("input", function() {
+    	update(+this.value);
+    });
+
+
+    update(1995);
+
+    //update function runs on slider input, updates slider and chart based on year
+    function update(nYear) {
+    	d3.select("#nYear-value").text(nYear);
+    	d3.select("#nYear").property("value", nYear);
+    	if(nYear == 1995) {
+  			RadarChart.draw("#chart", data1995);
+  		}
+
+  		else if(nYear == 2000) {
+  			RadarChart.draw("#chart", data2000);
+  		}
+
+    }
+
   </script>
